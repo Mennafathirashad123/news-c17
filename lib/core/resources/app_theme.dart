@@ -33,6 +33,11 @@ class AppTheme {
         fontSize: 20.sp,
         fontWeight: FontWeight.w700,
         color: Colors.white
+      ),
+      titleSmall: TextStyle(
+        fontSize: 12.sp,
+        color: ColorsManager.greyColor,
+        fontWeight: FontWeight.w500
       )
     )
   );

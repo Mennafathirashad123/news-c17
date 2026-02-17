@@ -1,21 +1,62 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:news_c17/core/resources/colors_manager.dart';
+
+import '../../../model/articles_response/Article.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ArticleItem extends StatelessWidget {
-  const ArticleItem({super.key});
+  final Article article;
+
+  const ArticleItem({super.key, required this.article});
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Image.network(
-        "https://gizmodo.com/app/uploads/2026/01/shutterstock_2708601327-1200x675.jpg",
-        height:220,
-        width: double.infinity,
-
+    return Container(
+      padding: REdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: ColorsManager.lightPrimaryColor),
       ),
-      Text("40-year-old man falls 200 feet to his death while canyoneering at national park",style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-        fontSize: 16.sp
-      ),)
-    ],);
+      child: Column(
+        spacing: 10.h,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadiusGeometry.circular(8.r),
+            child: CachedNetworkImage(
+              imageUrl: article.urlToImage ?? "",
+              height: 220.h,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              placeholder: (context, url) =>
+                  Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) =>
+                  Center(child: Icon(Icons.error_outline_rounded, size: 40.sp)),
+            ),
+          ),
+          Text(
+            article.title ?? "",
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(fontSize: 16.sp),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  "By : ${article.author}",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+              Text(
+                timeago.format(DateTime.parse(article.publishedAt!)),
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
