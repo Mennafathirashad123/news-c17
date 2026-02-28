@@ -3,13 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:news_c17/core/resources/assets_manager.dart';
 import 'package:news_c17/core/resources/strings_manager.dart';
+import 'package:provider/provider.dart';
+import 'package:news_c17/providers/settings_provider.dart';
 
 class HomeDrawer extends StatelessWidget {
-  void Function() onPress;
-  HomeDrawer(this.onPress);
+  final void Function() onPress;
+  const HomeDrawer({super.key, required this.onPress});
 
   @override
   Widget build(BuildContext context) {
+    var settingsProvider = Provider.of<SettingsProvider>(context);
+
     return Drawer(
       backgroundColor: Theme.of(context).colorScheme.primary,
       child: Column(
@@ -55,7 +59,7 @@ class HomeDrawer extends StatelessWidget {
                 DropdownButtonFormField<String>(
                     isExpanded: true,
                     dropdownColor: Theme.of(context).colorScheme.primary,
-                    initialValue: "light",
+                    initialValue: settingsProvider.isDark() ? "dark" : "light",
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.r),
@@ -86,7 +90,11 @@ class HomeDrawer extends StatelessWidget {
                           child: Text("Light",style: Theme.of(context).textTheme.labelMedium)),
                     ],
                     onChanged: (value) {
-                      // change app theme
+                      if (value == "dark") {
+                        settingsProvider.changeTheme(ThemeMode.dark);
+                      } else {
+                        settingsProvider.changeTheme(ThemeMode.light);
+                      }
                     },
                 )
               ],

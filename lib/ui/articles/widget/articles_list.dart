@@ -3,15 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_c17/core/remote/api/api_manager.dart';
 import 'package:news_c17/ui/articles/widget/article_item.dart';
 
-import '../../../model/articles_response/Article.dart';
+import '../../../model/articles_response/article.dart';
+import '../../../model/articles_response/articles_response.dart';
 
 class ArticlesList extends StatelessWidget {
-  String sourceId;
-  ArticlesList(this.sourceId);
+  final String sourceId;
+  const ArticlesList({super.key, required this.sourceId});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<ArticlesResponse?>(
       future: ApiManager.getArticles(sourceId),
       builder: (context, asyncSnapshot) {
         if(asyncSnapshot.connectionState == ConnectionState.waiting){
@@ -30,7 +31,7 @@ class ArticlesList extends StatelessWidget {
           );
         }
         var response = asyncSnapshot.data;
-        List<Article> articles = response?.articles??[];
+        List<Article> articles = response?.articles??<Article>[];
         return Padding(
           padding: REdgeInsets.all(16),
           child: ListView.separated(

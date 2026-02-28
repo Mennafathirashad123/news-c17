@@ -6,10 +6,10 @@ import 'package:news_c17/core/resources/strings_manager.dart';
 import 'package:news_c17/model/category_model.dart';
 
 class CategoryItem extends StatelessWidget {
-  CategoryModel categoryModel;
-  int index;
-  void Function(CategoryModel) selectCategory;
-  CategoryItem({required this.categoryModel,required this.index,required this.selectCategory});
+  final CategoryModel categoryModel;
+  final int index;
+  final void Function(CategoryModel) selectCategory;
+  const CategoryItem({super.key, required this.categoryModel,required this.index,required this.selectCategory});
 
   @override
   Widget build(BuildContext context) {

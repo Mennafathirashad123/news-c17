@@ -5,8 +5,8 @@ import 'package:news_c17/model/category_model.dart';
 import 'package:news_c17/ui/categories/widgets/category_item.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  void Function(CategoryModel) selectCategory;
-  CategoriesScreen(this.selectCategory);
+  final void Function(CategoryModel) selectCategory;
+  const CategoriesScreen({super.key, required this.selectCategory});
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 
-import '../sources_response/Source.dart';
+import '../sources_response/source.dart';
 
 class Article {
   Article({

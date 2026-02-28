@@ -4,11 +4,10 @@ import 'package:news_c17/model/category_model.dart';
 import 'package:news_c17/ui/articles/screen/articles_screen.dart';
 import 'package:news_c17/ui/categories/screen/categories_screen.dart';
 import 'package:news_c17/ui/home/widgets/home_drawer.dart';
+import 'package:news_c17/ui/search/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-
-
-  @override
+  const HomeScreen({super.key});  @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
@@ -20,22 +19,30 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(selectedCategory!=null?selectedCategory!.title:StringsManager.home),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchScreen()));
+            }, 
+            icon: const Icon(Icons.search, size: 28)
+          )
+        ],
       ),
-      drawer: HomeDrawer(goToHome),
+      drawer: HomeDrawer(onPress: goToHome),
       body: selectedCategory!=null
-          ?ArticlesScreen(selectedCategory!)
-          :CategoriesScreen(onCategoryClick),
+          ?ArticlesScreen(category: selectedCategory!)
+          :CategoriesScreen(selectCategory: onCategoryClick),
     );
   }
 
-  onCategoryClick(CategoryModel newCategory){
+  void onCategoryClick(CategoryModel newCategory){
     selectedCategory = newCategory;
     setState(() {
 
     });
   }
 
-  goToHome(){
+  void goToHome(){
     selectedCategory = null;
     Navigator.pop(context);
     setState(() {

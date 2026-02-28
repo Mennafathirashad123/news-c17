@@ -1,4 +1,4 @@
 abstract final class AppConstants {
-  static const String apiKey = "d3e16e322c2e4c00b4b4f4967c290a7f";
+  static const String apiKey = "14e805355d4a43e38e4068e892b6fcd0";
   static const String baseUrl = "https://newsapi.org";
 }

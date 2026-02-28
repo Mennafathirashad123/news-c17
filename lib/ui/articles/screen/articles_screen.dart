@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_c17/core/remote/api/api_manager.dart';
-import 'package:news_c17/core/resources/app_constants.dart';
+
 import 'package:news_c17/core/resources/colors_manager.dart';
 import 'package:news_c17/model/category_model.dart';
 import 'package:news_c17/ui/articles/widget/articles_list.dart';
 
-import '../../../model/sources_response/Source.dart';
+import '../../../model/sources_response/source.dart';
+import '../../../model/sources_response/sources_response.dart';
 
 class ArticlesScreen extends StatefulWidget {
-  CategoryModel category;
-  ArticlesScreen(this.category);
+  final CategoryModel category;
+  const ArticlesScreen({super.key, required this.category});
 
   @override
   State<ArticlesScreen> createState() => _ArticlesScreenState();
@@ -24,7 +25,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<SourcesResponse?>(
       future: ApiManager.getSources(widget.category.id),
       builder: (context, asyncSnapshot) {
         if(asyncSnapshot.connectionState == ConnectionState.waiting){
@@ -45,7 +46,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         }
         // success state
         var response = asyncSnapshot.data;
-        List<Source> sources = response?.sources??[];
+        List<Source> sources = response?.sources??<Source>[];
         return DefaultTabController(
           length: sources.length,
           child: Column(
@@ -69,7 +70,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                   ) ,).toList()
               ),
               Expanded(child: TabBarView(
-                  children: sources.map((source) => ArticlesList(source.id??""),).toList()
+                  children: sources.map((source) => ArticlesList(sourceId: source.id??""),).toList()
               ))
             ],
           ),

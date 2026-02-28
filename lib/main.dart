@@ -4,10 +4,15 @@ import 'package:news_c17/core/remote/api/api_manager.dart';
 import 'package:news_c17/core/resources/app_theme.dart';
 import 'package:news_c17/core/resources/routes_manager.dart';
 import 'package:news_c17/ui/home/screen/home_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:news_c17/providers/settings_provider.dart';
 
 void main() {
   ApiManager.init();
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => SettingsProvider(),
+    child: const MyApp()
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,6 +21,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var settingsProvider = Provider.of<SettingsProvider>(context);
+
     return ScreenUtilInit(
       designSize: Size(393, 852),
       minTextAdapt: true,
@@ -27,6 +34,8 @@ class MyApp extends StatelessWidget {
             RoutesManager.home:(_)=>HomeScreen()
           },
           theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: settingsProvider.currentTheme,
           initialRoute: RoutesManager.home,
           debugShowCheckedModeBanner: false,
         );
